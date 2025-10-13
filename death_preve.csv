@@ -7,7 +7,6 @@ Western Australia,2022,exceeded_2020_guideline_pct,29.9
 Tasmania,2022,exceeded_2020_guideline_pct,28.9
 Northern Territory,2022,exceeded_2020_guideline_pct,31.1
 Australian Capital Territory,2022,exceeded_2020_guideline_pct,27.4
-Australia,2022,exceeded_2020_guideline_pct,26.8
 New South Wales,2010,risky_2020_guideline_pct_14plus,35.7
 New South Wales,2013,risky_2020_guideline_pct_14plus,32.9
 New South Wales,2016,risky_2020_guideline_pct_14plus,32.1
@@ -48,11 +47,6 @@ Northern Territory,2013,risky_2020_guideline_pct_14plus,47.8
 Northern Territory,2016,risky_2020_guideline_pct_14plus,42.8
 Northern Territory,2019,risky_2020_guideline_pct_14plus,41.2
 Northern Territory,2022,risky_2020_guideline_pct_14plus,40.4
-Australia,2010,risky_2020_guideline_pct_14plus,37.7
-Australia,2013,risky_2020_guideline_pct_14plus,35.2
-Australia,2016,risky_2020_guideline_pct_14plus,33.2
-Australia,2019,risky_2020_guideline_pct_14plus,32
-Australia,2022,risky_2020_guideline_pct_14plus,30.7
 New South Wales,2022,alcohol_induced_deaths_rate_per_100k,6.2
 Victoria,2022,alcohol_induced_deaths_rate_per_100k,5.4
 Queensland,2022,alcohol_induced_deaths_rate_per_100k,6.9
