@@ -1,0 +1,63 @@
+state,year,metric,value
+New South Wales,2022,exceeded_2020_guideline_pct,25.2
+Victoria,2022,exceeded_2020_guideline_pct,24.3
+Queensland,2022,exceeded_2020_guideline_pct,29.4
+South Australia,2022,exceeded_2020_guideline_pct,29.3
+Western Australia,2022,exceeded_2020_guideline_pct,29.9
+Tasmania,2022,exceeded_2020_guideline_pct,28.9
+Northern Territory,2022,exceeded_2020_guideline_pct,31.1
+Australian Capital Territory,2022,exceeded_2020_guideline_pct,27.4
+Australia,2022,exceeded_2020_guideline_pct,26.8
+New South Wales,2010,risky_2020_guideline_pct_14plus,35.7
+New South Wales,2013,risky_2020_guideline_pct_14plus,32.9
+New South Wales,2016,risky_2020_guideline_pct_14plus,32.1
+New South Wales,2019,risky_2020_guideline_pct_14plus,30.7
+New South Wales,2022,risky_2020_guideline_pct_14plus,31.2
+Victoria,2010,risky_2020_guideline_pct_14plus,35
+Victoria,2013,risky_2020_guideline_pct_14plus,32.8
+Victoria,2016,risky_2020_guideline_pct_14plus,31.5
+Victoria,2019,risky_2020_guideline_pct_14plus,29.6
+Victoria,2022,risky_2020_guideline_pct_14plus,26.4
+Queensland,2010,risky_2020_guideline_pct_14plus,42.7
+Queensland,2013,risky_2020_guideline_pct_14plus,37.2
+Queensland,2016,risky_2020_guideline_pct_14plus,36.1
+Queensland,2019,risky_2020_guideline_pct_14plus,36
+Queensland,2022,risky_2020_guideline_pct_14plus,33.1
+Western Australia,2010,risky_2020_guideline_pct_14plus,40.5
+Western Australia,2013,risky_2020_guideline_pct_14plus,40.5
+Western Australia,2016,risky_2020_guideline_pct_14plus,34.5
+Western Australia,2019,risky_2020_guideline_pct_14plus,32.8
+Western Australia,2022,risky_2020_guideline_pct_14plus,33.2
+South Australia,2010,risky_2020_guideline_pct_14plus,36.7
+South Australia,2013,risky_2020_guideline_pct_14plus,36.9
+South Australia,2016,risky_2020_guideline_pct_14plus,33.5
+South Australia,2019,risky_2020_guideline_pct_14plus,34
+South Australia,2022,risky_2020_guideline_pct_14plus,32.2
+Tasmania,2010,risky_2020_guideline_pct_14plus,37.8
+Tasmania,2013,risky_2020_guideline_pct_14plus,37.4
+Tasmania,2016,risky_2020_guideline_pct_14plus,34.7
+Tasmania,2019,risky_2020_guideline_pct_14plus,33.2
+Tasmania,2022,risky_2020_guideline_pct_14plus,34
+Australian Capital Territory,2010,risky_2020_guideline_pct_14plus,37.8
+Australian Capital Territory,2013,risky_2020_guideline_pct_14plus,38.2
+Australian Capital Territory,2016,risky_2020_guideline_pct_14plus,30.1
+Australian Capital Territory,2019,risky_2020_guideline_pct_14plus,27.8
+Australian Capital Territory,2022,risky_2020_guideline_pct_14plus,26.8
+Northern Territory,2010,risky_2020_guideline_pct_14plus,46.6
+Northern Territory,2013,risky_2020_guideline_pct_14plus,47.8
+Northern Territory,2016,risky_2020_guideline_pct_14plus,42.8
+Northern Territory,2019,risky_2020_guideline_pct_14plus,41.2
+Northern Territory,2022,risky_2020_guideline_pct_14plus,40.4
+Australia,2010,risky_2020_guideline_pct_14plus,37.7
+Australia,2013,risky_2020_guideline_pct_14plus,35.2
+Australia,2016,risky_2020_guideline_pct_14plus,33.2
+Australia,2019,risky_2020_guideline_pct_14plus,32
+Australia,2022,risky_2020_guideline_pct_14plus,30.7
+New South Wales,2022,alcohol_induced_deaths_rate_per_100k,6.2
+Victoria,2022,alcohol_induced_deaths_rate_per_100k,5.4
+Queensland,2022,alcohol_induced_deaths_rate_per_100k,6.9
+South Australia,2022,alcohol_induced_deaths_rate_per_100k,5.6
+Western Australia,2022,alcohol_induced_deaths_rate_per_100k,4.9
+Tasmania,2022,alcohol_induced_deaths_rate_per_100k,9.4
+Northern Territory,2022,alcohol_induced_deaths_rate_per_100k,
+Australian Capital Territory,2022,alcohol_induced_deaths_rate_per_100k,5.7
