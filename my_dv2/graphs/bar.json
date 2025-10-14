@@ -1,0 +1,61 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Scatter plot comparing deaths vs % of risky Alcohol drinkers(age 14+) per state (2022, zoomed axes)",
+  "data": {"url": "https://raw.githubusercontent.com/gaut0006/3179/refs/heads/main/Prevalence.csv"},
+  "transform": [
+    {"filter": "datum.year == 2019 || datum.year == 2022"},
+    {
+      "pivot": "metric",
+      "value": "value",
+      "groupby": ["state", "year"]
+    }
+  ],
+  "mark": {
+    "type": "circle",
+    "size": 200,
+    "opacity": 0.9,
+    "stroke": "white",
+    "strokeWidth": 1
+  },
+  "encoding": {
+    "x": {
+      "field": "alcohol_induced_deaths_rate_per_100k",
+      "type": "quantitative",
+      "title": "Alcohol-induced Deaths per 100k",
+      "scale": {"domain": [3, 9.5]}, 
+      "axis": {
+        "labelFontSize": 13,
+        "titleFontSize": 15,
+        "gridOpacity": 0.2
+      }
+    },
+    "y": {
+      "field": "risky_2020_guideline_pct_14plus",
+      "type": "quantitative",
+      "title": "% of Risky Alcohol Drinkers (%)",
+      "scale": {"domain": [20, 40]}, 
+      "axis": {
+        "labelFontSize": 13,
+        "titleFontSize": 15,
+        "gridOpacity": 0.2
+      }
+    },
+    "color": {
+      "field": "state",
+      "type": "nominal",
+      "title": "State",
+      "legend": {"titleFontSize": 13, "labelFontSize": 12}
+    },
+    "tooltip": [
+      {"field": "state", "type": "nominal"},
+      {"field": "alcohol_induced_deaths_rate_per_100k", "title": "Deaths per 100k"},
+      {"field": "exceeded_2020_guideline_pct", "title": "Guideline Exceeded (%)"}
+    ]
+  },
+  "config": {
+    "background": "#fafafa",
+    "view": {"stroke": "transparent"}
+  },
+  "width": 600,
+  "height": 450
+}

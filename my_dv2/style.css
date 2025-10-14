@@ -1,0 +1,160 @@
+/* ----------------------------
+   GLOBAL PAGE SETTINGS
+----------------------------- */
+body {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  background-color: #fafafa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Smooth scroll for navigation (future enhancement) */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ----------------------------
+   HEADER SECTION
+----------------------------- */
+header {
+  background: linear-gradient(135deg, #4c78a8 0%, #5e90cc 100%);
+  color: white;
+  text-align: center;
+  padding: 3rem 1rem 2.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+  margin-bottom: 1rem;
+  font-size: 2.3rem;
+  letter-spacing: 0.5px;
+}
+
+header p {
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  opacity: 0.95;
+  font-weight: 400;
+}
+
+/* ----------------------------
+   STORY SECTIONS (for each chart)
+----------------------------- */
+.story-section {
+  background: #ffffff;
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.story-section h2 {
+  color: #4c78a8;
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.story-section p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.story-section .caption {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.8rem;
+  text-align: center;
+  font-style: italic;
+}
+
+/* ----------------------------
+   CHART CONTAINERS
+----------------------------- */
+#mapChart,
+#barLineChart,
+#scatterChart {
+  width: 100%;
+  min-height: 500px;
+  margin: 0 auto;
+}
+
+/* ----------------------------
+   FOOTER SECTION
+----------------------------- */
+footer {
+  background: #4c78a8;
+  color: white;
+  text-align: center;
+  padding: 1.8rem 1rem;
+  font-size: 0.95rem;
+  margin-top: 3rem;
+}
+
+footer p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* ----------------------------
+   RESPONSIVE DESIGN
+----------------------------- */
+@media (max-width: 900px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  header p {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .story-section {
+    padding: 1.5rem 1.5rem;
+    margin: 2rem 1rem;
+  }
+
+  .story-section h2 {
+    font-size: 1.3rem;
+  }
+}
+
+/* ----------------------------
+   ADDITIONAL ELEMENTS (chart explanations)
+----------------------------- */
+.chart-text {
+  max-width: 900px;
+  margin: 1rem auto 0;
+  text-align: center;
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* ----------------------------
+   OPTIONAL ENHANCEMENTS
+----------------------------- */
+
+/* Subtle hover animation on charts */
+.story-section div[id$="Chart"] {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.story-section div[id$="Chart"]:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Link styles */
+a {
+  color: #4c78a8;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
