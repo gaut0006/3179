@@ -1,24 +1,22 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 800,
   "height": 700,
-  "title": {
-    "text": "Alcohol-Induced Deaths per 100k by Australian State (2019)",
-    "fontSize": 20,
-    "font": "Inter",
-    "anchor": "middle",
-    "color": "#333"
-  },
+  
+  
+
   "projection": {
     "type": "mercator",
     "center": [133, -30],
     "scale": 850,
     "translate": [400, 340]
   },
+
   "data": {
     "url": "https://raw.githubusercontent.com/gaut0006/3179/refs/heads/main/states_no.json",
     "format": { "type": "topojson", "feature": "statessss" }
   },
+
   "transform": [
     { "calculate": "trim(datum.properties.STE_NAME21)", "as": "state_name" },
     {
@@ -38,17 +36,31 @@
     { "calculate": "toNumber(datum.value)", "as": "value_num" },
     { "filter": "isValid(datum.value_num) && isFinite(datum.value_num)" }
   ],
-  "mark": {
-    "type": "geoshape",
-    "stroke": "white",
-    "strokeWidth": 1.2
-  },
+
+  "params": [
+    {
+      "name": "minRate",
+      "value": 0,
+      "bind": { "input": "number", "name": "Min deaths/100k: ", "min": 0, "max": 20, "step": 0.1 }
+    },
+    {
+      "name": "hoverState",
+      "select": { "type": "point", "fields": ["state_name"] }
+    },
+    {
+      "name": "pickState",
+      "select": { "type": "point", "fields": ["state_name"], "on": "click", "clear": "dblclick" }
+    }
+  ],
+
+  "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 1.2 },
+
   "encoding": {
     "color": {
       "field": "value_num",
       "type": "quantitative",
       "title": "Alcohol-Induced Deaths (per 100k)",
-      "scale": { "scheme": "reds", "domain": [2.5, 10] },
+      "scale": { "scheme": "lighttealblue", "domain": [2.5, 10] },
       "legend": {
         "title": "Deaths per 100k",
         "orient": "right",
@@ -57,14 +69,36 @@
         "gradientLength": 250,
         "labelFontSize": 12,
         "titleFontSize": 13,
-        "format": ".1f"
+      "format": ".1f"
       }
     },
+
+    "opacity": {
+      "condition": { "test": "datum.value_num >= minRate", "value": 1 },
+      "value": 0.25
+    },
+
+    "stroke": {
+      "condition": [
+        { "param": "pickState",  "empty": false, "value": "#111" },
+        { "param": "hoverState", "empty": false, "value": "#333" }
+      ],
+      "value": "white"
+    },
+    "strokeWidth": {
+      "condition": [
+        { "param": "pickState",  "empty": false, "value": 2 },
+        { "param": "hoverState", "empty": false, "value": 1.6 }
+      ],
+      "value": 1.2
+    },
+
     "tooltip": [
       { "field": "state_name", "title": "State" },
       { "field": "value_num", "title": "Deaths per 100k", "format": ".1f" }
     ]
   },
+
   "config": {
     "autosize": { "type": "fit", "contains": "padding" },
     "padding": { "top": 40, "bottom": 20 },

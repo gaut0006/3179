@@ -51,6 +51,7 @@ header p {
   padding: 2.5rem 3rem;
   border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  position: relative;                /* enables absolute notes inside */
 }
 
 .story-section h2 {
@@ -72,6 +73,21 @@ header p {
   margin-top: 0.8rem;
   text-align: center;
   font-style: italic;
+}
+
+/* Optional: small top-right note box for cards */
+.with-note { position: relative; }
+.side-note {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  color: #666;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 /* ----------------------------
@@ -123,6 +139,12 @@ footer p {
   .story-section h2 {
     font-size: 1.3rem;
   }
+
+  .side-note {
+    top: 8px;
+    right: 10px;
+    font-size: 0.85rem;
+  }
 }
 
 /* ----------------------------
@@ -131,10 +153,17 @@ footer p {
 .chart-text {
   max-width: 900px;
   margin: 1rem auto 0;
-  text-align: center;
+  text-align: left;            /*  left align the explanatory text */
   color: #444;
   font-size: 1rem;
   line-height: 1.7;
+}
+
+/* force the Note: onto its own line when wrapped in <span class="note-line"> */
+.chart-text .note-line {
+  display: block;
+  margin-top: 6px;
+  color: #666;
 }
 
 /* ----------------------------
@@ -151,10 +180,25 @@ footer p {
 }
 
 /* Link styles */
-a {
-  color: #4c78a8;
-  text-decoration: none;
+a /* ===== FIX WHITE GAP UNDER HERO ===== */
+html, body {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(to bottom, #2f5fb3 0%, #e9eef5 70%, #ffffff 100%);
 }
-a:hover {
-  text-decoration: underline;
+
+/* Remove white background from main and make it transparent */
+main {
+  background: transparent;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Keep chart cards white for contrast */
+.viz, .viz-row {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin: 28px auto;
+  padding: 18px;
 }
