@@ -1,18 +1,18 @@
-// vega_lite_vis.js
 
-// Adjust these if you rename the folder or files
+
+
 const SPECS = [
   { id: "map",  url: "graphs/map.json"  },
   { id: "bar",  url: "graphs/bar.json"  },
   { id: "line", url: "graphs/line.json" }
 ];
 
-// Render one spec and show friendly errors under the target element
+
 async function renderSpec(targetId, url) {
   const msgEl = document.getElementById(`${targetId}-msg`);
 
   try {
-    // Existence check (helps catch bad paths)
+    
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error(`${url}  HTTP ${res.status}`);
 
@@ -30,9 +30,9 @@ async function renderSpec(targetId, url) {
   }
 }
 
-// Run when the page is ready
+
 window.addEventListener("DOMContentLoaded", () => {
-  // Safety check: are Vega libs loaded?
+
   if (typeof vegaEmbed !== "function") {
     console.error("vegaEmbed not found. Make sure the CDN scripts load BEFORE vega_lite_vis.js");
     alert("Vega libraries not loaded. Check <script> order in index.html.");
