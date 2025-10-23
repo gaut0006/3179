@@ -88,7 +88,7 @@
       box-shadow: 0 4px 14px rgba(0,0,0,.10);
       line-height: 1.55;
       font-size: 15.5px;
-      text-align: left; /* left align per your request */
+      text-align: left; 
     }
 
     /* ==== PAGE SECTIONS ==== */
@@ -106,19 +106,8 @@
     .control-row label { font-weight:600; white-space:nowrap; }
     .control-row input, .control-row select { padding:4px 6px; }
 
-    @media (max-width: 880px){
-      .hero-inner{
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-          "title title"
-          "leftimg rightimg"
-          "lead lead";
-        gap: 12px;
-        justify-items:center;
-      }
-      .hero-figure img{ width:120px; height:120px; }
-      .controls.right { justify-content:flex-start; }
-    }
+    
+    
   </style>
 </head>
 <body>
@@ -270,10 +259,10 @@ Countries available are:  Australia · Austria · Belgium · Canada · Denmark �
     </section>
   </main>
 
-  <!-- Your existing AU embeds (map/bar/line) -->
+  
   <script src="vega_lite_vis.js"></script>
 
-  <!-- Inline embeds for WORLD MAP + AREA CHART -->
+  
   <script>
     /* =========================
        WORLD MAP (legend bottom)
@@ -426,5 +415,28 @@ Countries available are:  Australia · Austria · Belgium · Canada · Denmark �
     vegaEmbed("#area-chart", areaSpec, { actions:false })
       .catch(err => document.getElementById("area-msg").textContent = err.message);
   </script>
+    <!-- ===== FOOTER ===== -->
+  <footer style="background:#f5f5f5; border-top:1px solid #ddd; padding:16px 24px; margin-top:40px; text-align:left; color:#333;">
+    <p>
+      <strong>Author:</strong> Gautam Kumar &nbsp; | &nbsp;
+      <strong>Date:</strong> 23 Oct 2025
+    </p>
+
+    <p><strong>Sources:</strong></p>
+    <ul style="margin-top:-8px; margin-bottom:8px;">
+      <li><a href="https://www.cambridge.org/core/journals/journal-of-wine-economics/article/convergence-in-national-alcohol-consumption-patterns-new-global-indicators/C3E116C7FB7062BA5134E7377E8537DA#ref5" target="_blank" style="color:#2f5fb3;">
+      Convergence in national alcohol consumption patterns  Journal of Wine Economics
+    </a></li>
+    <li><a href="https://www.abs.gov.au/statistics/health/health-conditions-and-risks/national-health-survey/2022#data-downloads" target="_blank" style="color:#2f5fb3;">
+      ABS National Health Survey 2022  
+    </a></li>
+    <li><a href="https://www.aihw.gov.au/reports/injury/alcohol-related-injuries-2019-20/data" target="_blank" style="color:#2f5fb3;">
+      AIHW Alcohol-related mortality 2019  
+    </a></li>
+    </ul>
+
+    <p><em>Visualised with Vega-Lite.</em></p>
+  </footer>
+
 </body>
 </html> 
