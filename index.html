@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Geography of Alcohol Harm</title>
+
+  <!-- Vega libraries (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <!-- (Optional) external stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    :root{
+      --brand-start:#2f5fb3;
+      --brand-end:#5aa0ff;
+      --title-bg:#ffe082;
+      --title-text:#1b1b1b;
+      --lead-bg:#fff3e0;
+      --lead-text:#2a2a2a;
+    }
+
+    html, body { margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#f7f7f9; color:#111; }
+
+    /* ==== HERO WITH SIDE IMAGES ==== */
+    header.hero {
+      background: linear-gradient(135deg, var(--brand-start), var(--brand-end));
+      padding: 28px 16px 24px;
+      color: #fff;
+    }
+    .hero-inner {
+      max-width: 1150px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 160px 1fr 160px;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "leftimg title rightimg"
+        ". lead .";
+      align-items: center;
+      gap: 10px 22px;
+    }
+    .hero-figure{
+      background: rgba(255,255,255,.18);
+      padding: 10px;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .hero-figure img{
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 10px;
+      display:block;
+    }
+    .hero-figure.left { grid-area: leftimg; }
+    .hero-figure.right{ grid-area: rightimg; }
+
+    .title-chip{
+      grid-area: title;
+      display: inline-block;
+      background: var(--title-bg);
+      color: var(--title-text);
+      padding: 12px 22px;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      font-weight: 800;
+      font-size: clamp(24px, 4vw, 40px);
+      letter-spacing: .2px;
+      text-align:center;
+      justify-self:center;
+    }
+    .lead-chip{
+      grid-area: lead;
+      max-width: 900px;
+      margin: 6px auto 0;
+      background: var(--lead-bg);
+      color: var(--lead-text);
+      padding: 14px 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.10);
+      line-height: 1.55;
+      font-size: 15.5px;
+      text-align: left; 
+    }
+
+    /* ==== PAGE SECTIONS ==== */
+    main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .viz { background:#fff; border:1px solid #e7e7ee; border-radius:14px; padding:14px; margin:16px 0 28px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+    .viz h2 { margin: 6px 8px 8px; font-size:18px; }
+    .err { color:#b00020; white-space:pre-wrap; padding:8px 0; }
+    .chart-text { margin: 10px 8px 0; color:#333; line-height:1.6; text-align:left; }
+
+    /* controls */
+    .controls { margin:8px 8px 0; display:flex; flex-wrap:wrap; gap:16px 24px; align-items:flex-start; }
+    .controls.right { justify-content:flex-end; }
+    .control-block { display:flex; flex-direction:column; min-width:260px; }
+    .control-row { display:flex; gap:8px; align-items:center; }
+    .control-row label { font-weight:600; white-space:nowrap; }
+    .control-row input, .control-row select { padding:4px 6px; }
+
+    @media (max-width: 880px){
+      .hero-inner{
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "title title"
+          "leftimg rightimg"
+          "lead lead";
+        gap: 12px;
+        justify-items:center;
+      }
+      .hero-figure img{ width:120px; height:120px; }
+      .controls.right { justify-content:flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Hero with side images + centered title/lead ===== -->
+  <header class="hero">
+  <div class="hero-inner">
+    <!-- Left image -->
+    <figure class="hero-figure left">
+      <img src="./images/images%20(2).jpeg" alt="No alcohol sign" />
+    </figure>
+
+    <!--  Title (restored) -->
+    <h1 class="title-chip">The Geography of Alcohol Harm</h1>
+
+    <!-- Right image -->
+    <figure class="hero-figure right">
+      <img src="./images/How-alcohol-harms-your-health.png" alt="How alcohol harms your health infographic" />
+    </figure>
+
+    <!-- Subtitle -->
+    <p class="lead-chip">
+      Alcohol harm is not evenly distributed. This project maps how alcohol use and its consequences vary
+      <strong>across the world</strong> and <strong>within Australia's states</strong>, from what people drink
+      (wine, beer, spirits) to how many lives alcohol claims. Explore interactive maps and charts to spot
+      regional patterns, compare trends over time, and see where the burden of alcohol-related deaths
+      and risky drinking is concentrated.
+    </p>
+  </div>
+</header>
+
+  <main>
+    <!-- ===== WORLD MAP ===== -->
+    <section class="viz">
+      
+      <div id="map2"></div>
+
+      <!-- controls directly under the map -->
+      <div id="map2-controls" class="controls right">
+        <div class="control-block">
+          <div class="control-row">
+            <label>Min death percentage:</label>
+            <div id="map2-min"></div>
+          </div>
+        </div>
+        <div class="control-block">
+          <div class="control-row">
+            <label>Max death percentage:</label>
+            <div id="map2-max"></div>
+          </div>
+        </div>
+        <div class="control-block">
+          <div class="control-row">
+            <label>Country:</label>
+            <div id="map2-iso"></div>
+          </div>
+          <small style="opacity:.8; padding-left: 88px;">Select a country to highlight.</small>
+        </div>
+      </div>
+
+      <p class="chart-text">
+        In 2019, alcohol made up a larger <strong>share of total deaths</strong> along a band from
+        <strong>Eastern Europe into Central Asia</strong>, with additional hotspots in
+        <strong>Southern Africa</strong>. Rates tended to be lower across <strong>Western Europe</strong>,
+        <strong>North America</strong>, <strong>Oceania</strong>, and much of <strong>East Asia</strong>,
+        with <strong>North Africa</strong> and parts of the <strong>Middle East</strong> among the lowest.
+        A higher percentage here doesn't mean alcohol is the single leading cause of death; it indicates that
+        alcohol contributes to a <strong>greater fraction</strong> of all deaths (via liver disease,
+        injuries, cancers, and cardiovascular conditions).
+      </p>
+
+      <div id="map2-msg" class="err"></div>
+    </section>
+
+    <!-- ===== AUSTRALIA MAP (handled in vega_lite_vis.js) ===== -->
+    <section class="viz">
+      <h2>Mapping the Burden of Alcohol-Related Mortality Across Australia</h2>
+      <div id="map"></div>
+      <div id="map-msg" class="err"></div>
+      <p class="chart-text">
+        In 2019, alcohol-induced deaths per 100,000 were <strong>highest in the Northern Territory</strong>, with
+        <strong>Tasmania</strong> also above the national average. <strong>Western Australia, Queensland and South Australia</strong>
+        sit in the middle of the range, while <strong>New South Wales and Victoria</strong> tend to be lower, and the
+        <strong>ACT</strong> is typically the lowest. Use the threshold control to fade states below your chosen minimum and focus
+        on hotspots. These differences likely reflect a mix of remoteness and service access, socioeconomic disadvantage,
+        patterns of risky drinking, and policy settings.<br />
+        <em>Note:</em> the map shows <em>rates per 100k</em> (risk), not total numbers of deaths.
+      </p>
+    </section>
+
+    <!-- ===== BAR ===== -->
+    <section class="viz">
+      <h2>Alcohol-Induced Deaths vs % of Risky Drinkers</h2>
+      <div id="bar"></div>
+      <div id="bar-msg" class="err"></div>
+   <p class="chart-text">
+  This graph shows corelation b/w two measures for each Australian state: the <strong>alcohol-induced death rate</strong>  and the
+  <strong>share of people exceeding the 2009 risky drinking guideline</strong> . Each dot represents a state and year; higher and farther-right dots indicate
+  both riskier drinking patterns and higher mortality. A loose upward pattern suggests that places with more risky drinking tend to experience more
+  alcohol-related deaths. Notable contrasts help with interpretation,for example, the <strong>Northern Territory</strong> sits high and to the right
+  (both high prevalence and high deaths), while <strong>Victoria</strong> and <strong>New South Wales</strong> cluster lower with comparatively
+  lower death rates. This view helps user to spot outliers.
+  <li><em>Note: Lifetime risk: drinking more than 2 standard drinks per day on average. A standard drink in Australia = 10 g of pure alcohol.</em></li>
+li><em>Note: The risky drinkers data is for 14+ population</em></li>
+</p>
+
+    </section>
+
+    <!-- ===== LINE ===== -->
+    <section class="viz">
+      <h2>Comparison of % Exceeding Drinking Guidelines vs Alcohol-Induced Death Rates by State (2022)</h2>
+      <div id="line"></div>
+      <div id="line-msg" class="err"></div>
+      <p class="chart-text">
+    This view compares each state's share of adults exceeding the 2020 NHMRC guideline with its alcohol-induced death rate.
+    Most states cluster where about <strong>24-31%</strong> exceed the guideline, and higher prevalence generally pairs with higher deaths.
+    <strong>Tasmania</strong> stands out-its death rate is the highest (~<strong>9-10 per 100k</strong>) despite only mid-to-high risky-drinking prevalence.
+    In contrast, <strong>Victoria</strong> and <strong>New South Wales</strong> show lower death rates (~<strong>5 per 100k</strong>) alongside relatively lower-mid risky-drinking shares,
+    while <strong>Queensland</strong>, <strong>Western Australia</strong>, and <strong>South Australia</strong> sit in the middle with both measures elevated.
+  <li><em>Note: The risky drinkers data is for 18+ population</em></li>
+  </p>
+    </section>
+
+    <!-- ===== AREA CHART (small multiples) ===== -->
+    <section class="viz">
+
+     
+<h1> We have seen a lot of data around the mortality effects and the consumption.
+    But what are the people drinking? <br>The chart below shows beverage consumption
+    distribution for various countries.</br></h1>
+      
+      <div id="area-chart"></div>
+     
+      <div id="area-controls" class="controls">
+        <div class="control-block">
+          <div class="control-row">
+            <label>Countries:</label>
+            <div id="area-regex"></div>
+          </div>
+        </div>
+      </div>
+      <div id="area-msg" class="err"></div>
+       <p class="chart-text">
+        <em>
+        Enter the country names separated by "|" to view for specific country. leave it empty to view for all.
+Countries available are:  Australia · Austria · Belgium · Canada · Denmark · Finland · France · Italy · Japan · Netherlands · New&nbsp;Zealand · Norway · Sweden · Switzerland · United&nbsp;Kingdom · United&nbsp;States
+        </em></p>
+    </section>
+  </main>
+
+  
+  <script src="vega_lite_vis.js"></script>
+
+  
+  <script>
+    /* =========================
+       WORLD MAP (legend bottom)
+       ========================= */
+    const map2Spec = {
+      $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+      width: 900,
+      height: 560,
+      title: {
+        text: "Alcohol Related share of the Total Mortality (2019)",
+        subtitle: "% of all deaths that are due to alcohol (country-level)",
+        anchor: "start",
+        fontSize: 24,
+        subtitleFontSize: 14,
+        subtitleColor: "#555",
+        fontWeight: "bold",
+        font: "Helvetica Neue"
+      },
+      data: {
+        url: "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+        format: { type: "topojson", feature: "ne_110m_admin_0_countries" }
+      },
+      transform: [
+        {
+          lookup: "properties.ADM0_A3",
+          from: {
+            data: { url: "https://raw.githubusercontent.com/gaut0006/3179/refs/heads/main/alcohol-attributable-fraction-of-mortality.csv" },
+            key: "Code",
+            fields: ["Entity","Code","Year","Alcohol_attributable_deaths"]
+          }
+        },
+        { calculate: "toNumber(datum.Alcohol_attributable_deaths)", as: "deaths_num" },
+        {
+          calculate:
+            "isValid(datum.deaths_num) ? (datum.deaths_num < 2 ? '0-2' : datum.deaths_num < 4 ? '2-4' : datum.deaths_num < 6 ? '4-6' : datum.deaths_num < 8 ? '6-8' : datum.deaths_num < 10 ? '8-10' : '10+') : null",
+          as: "bin_label"
+        }
+      ],
+      projection: { type: "equalEarth" },
+      params: [
+        {
+          name: "minPick",
+          value: 0,
+          bind: { input: "number", name: " ", element: "#map2-min", min: 0, max: 20, step: 0.1, placeholder: "0-20" }
+        },
+        {
+          name: "maxPick",
+          value: 20,
+          bind: { input: "number", name: " ", element: "#map2-max", min: 0, max: 20, step: 0.1, placeholder: "0-20" }
+        },
+        {
+          name: "countryISO",
+          value: "",
+          bind: {
+            input: "select",
+            name: " ",
+            element: "#map2-iso",
+            options: ["","AUS","IND","USA","CHN","RUS","BRA","ZAF","CAN","GBR","DEU","FRA","ITA","JPN","MEX","IDN","ESP","TUR","KOR","SAU","ARG","NLD"],
+            labels: [" All ","Australia (AUS)","India (IND)","United States (USA)","China (CHN)","Russia (RUS)","Brazil (BRA)","South Africa (ZAF)","Canada (CAN)","United Kingdom (GBR)","Germany (DEU)","France (FRA)","Italy (ITA)","Japan (JPN)","Mexico (MEX)","Indonesia (IDN)","Spain (ESP)","Türkiye (TUR)","South Korea (KOR)","Saudi Arabia (SAU)","Argentina (ARG)","Netherlands (NLD)"]
+          }
+        }
+      ],
+      layer: [
+        { transform:[{filter:"!isValid(datum.deaths_num)"}], mark:{type:"geoshape", stroke:null, fill:"#f2f2f2", opacity:0.6} },
+        {
+          transform:[{filter:"isValid(datum.deaths_num)"}],
+          mark:{type:"geoshape", stroke:null},
+          encoding:{
+            color: {
+              field: "bin_label",
+              type: "nominal",
+              title: "% of deaths due to alcohol (2019)",
+              scale: {
+                domain: ["0-2","2-4","4-6","6-8","8-10","10+"],
+                range:  ["#ffd54f","#fdbb6e","#fda762","#F7673A","#ef3b2c","#d7301f"]
+              },
+              legend: { orient: "bottom", direction: "horizontal", titleAlign: "left", labelAlign: "left", padding: 8 }
+            },
+            opacity:{ condition:{ test:"datum.deaths_num >= minPick && datum.deaths_num <= maxPick", value:1 }, value:0.25 },
+            tooltip:[
+              {field:"Entity", type:"nominal", title:"Country"},
+              {field:"Code", type:"nominal", title:"ISO-3"},
+              {field:"deaths_num", type:"quantitative", title:"Deaths (%)", format:".1f"}
+            ]
+          }
+        },
+        {
+          data:{ url:"https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+                 format:{ type:"topojson", mesh:"ne_110m_admin_0_countries"} },
+          mark:{ type:"geoshape", fill:null, stroke:"#dcdcdc", strokeWidth:0.06, strokeOpacity:0.9 }
+        },
+        {
+          mark:{ type:"geoshape", fill:null },
+          encoding:{
+            stroke:{ condition:{ test:"length(countryISO) && datum.Code == countryISO", value:"#111" }, value:null },
+            strokeWidth:{ condition:{ test:"length(countryISO) && datum.Code == countryISO", value:1.2 }, value:0 }
+          }
+        }
+      ],
+      config:{ legend:{ padding:10 }, view:{ stroke:null }, background:"floralwhite" }
+    };
+
+    vegaEmbed("#map2", map2Spec, { actions:false })
+      .catch(err => document.getElementById("map2-msg").textContent = err.message);
+
+    /* =========================
+       AREA CHART (small multiples)
+       ========================= */
+    const areaSpec = {
+      $schema:"https://vega.github.io/schema/vega-lite/v6.json",
+      title:{
+        text:"Share of total alcohol consumption from wine, beer, and spirits (percentage of pure alcohol)",
+        
+        anchor:"start", fontSize:16
+      },
+      data:{ url:"https://raw.githubusercontent.com/gaut0006/3179/refs/heads/main/alcohol-by-type-1890.csv" },
+      params:[
+        { name:"countryRegex",
+          value:"Australia|Austria|Belgium|Canada|Denmark|Finland|France|Italy|Japan|Netherlands|New Zealand|Norway|Sweden|Switzerland|United Kingdom|United States",
+          bind:{ input:"text", name:" ", element:"#area-regex", placeholder:"e.g., France|United" } }
+      ],
+      transform:[
+        { filter:"datum.Entity != null && isValid(datum.Year)" },
+        { filter:"test(countryRegex, datum.Entity)" },
+        { fold:["Spirits (% total alcohol)","Beer (% total alcohol)","Wine (% total alcohol)"], as:["type_raw","share"] },
+        { calculate:"toNumber(datum.share)", as:"share_num" },
+        { calculate:"replace(datum.type_raw, ' (% total alcohol)', '')", as:"type" }
+      ],
+      facet:{ field:"Entity", type:"nominal", columns:3, spacing:16, title:null },
+      spec:{
+        width:220, height:130,
+        mark:{ type:"area", interpolate:"monotone", stroke:"white", strokeWidth:0.6 },
+        encoding:{
+          x:{ field:"Year", type:"temporal", axis:{ grid:false } },
+          y:{ field:"share_num", type:"quantitative", stack:"normalize", axis:{ format:"0%", grid:true, tickCount:4 } },
+          color:{ field:"type", type:"nominal", domain:["Wine","Beer","Spirits"], scale:{ range:["#3B5BA9","#9E2F2F","#4D7A4D"] },
+                  legend:{ orient:"top", title:null, direction:"horizontal" } },
+          tooltip:[
+            {field:"Entity", type:"nominal"},
+            {field:"Year", type:"temporal"},
+            {field:"type", type:"nominal", title:"Beverage"},
+            {field:"share_num", type:"quantitative", title:"Share", format:".1%"}
+          ]
+        }
+      },
+      resolve:{ scale:{ y:"shared" } },
+      config:{ facet:{ columns:3 }, view:{ stroke:null }, background:"white" }
+    };
+
+    vegaEmbed("#area-chart", areaSpec, { actions:false })
+      .catch(err => document.getElementById("area-msg").textContent = err.message);
+  </script>
+    <!-- ===== FOOTER ===== -->
+  <footer style="background:#f5f5f5; border-top:1px solid #ddd; padding:16px 24px; margin-top:40px; text-align:left; color:#333;">
+    <p>
+      <strong>Author:</strong> Gautam Kumar &nbsp; | &nbsp;
+      <strong>Date:</strong> 23 Oct 2025
+    </p>
+
+    <p><strong>Sources:</strong></p>
+    <ul style="margin-top:-8px; margin-bottom:8px;">
+      <li><a href="https://www.cambridge.org/core/journals/journal-of-wine-economics/article/convergence-in-national-alcohol-consumption-patterns-new-global-indicators/C3E116C7FB7062BA5134E7377E8537DA#ref5" target="_blank" style="color:#2f5fb3;">
+      Convergence in national alcohol consumption patterns  Journal of Wine Economics
+    </a></li>
+    <li><a href="https://www.abs.gov.au/statistics/health/health-conditions-and-risks/national-health-survey/2022#data-downloads" target="_blank" style="color:#2f5fb3;">
+      ABS National Health Survey 2022  
+    </a></li>
+    <li><a href="https://www.aihw.gov.au/reports/injury/alcohol-related-injuries-2019-20/data" target="_blank" style="color:#2f5fb3;">
+      AIHW Alcohol-related mortality 2019  
+    </a></li>
+    </ul>
+
+    <p><em>Visualised with Vega-Lite.</em></p>
+  </footer>
+
+</body>
+</html>

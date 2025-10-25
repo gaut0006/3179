@@ -1,0 +1,80 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Share of total alcohol consumption from wine, beer, and spirits (percentage of pure alcohol)",
+   
+    "anchor": "middle",
+    "fontSize": 16
+    
+  },
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/gaut0006/3179/refs/heads/main/alcohol-by-type-1890.csv"
+  },
+
+  "params": [
+    {
+      "name": "countryRegex",
+      "value": "Australia|Austria|Belgium|Canada|Denmark|Finland|France|Italy|Japan|Netherlands|New Zealand|Norway|Sweden|Switzerland|United Kingdom|United States",
+      "bind": {"input": "text", "name": "Countries (regex): "}
+    }
+  ],
+
+  "transform": [
+    {"filter": "datum.Entity != null && isValid(datum.Year)"},
+    {"filter": "test(countryRegex, datum.Entity)"},
+    {
+      "fold": [
+        "Spirits (% total alcohol)",
+        "Beer (% total alcohol)",
+        "Wine (% total alcohol)"
+      ],
+      "as": ["type_raw","share"]
+    },
+    {"calculate": "toNumber(datum.share)", "as": "share_num"},
+    {"calculate": "replace(datum.type_raw, ' (% total alcohol)', '')", "as": "type"}
+  ],
+
+  "facet": {
+    "field": "Entity",
+    "type": "nominal",
+    "columns": 3,
+    "spacing": 16,
+    "title": null
+  },
+
+  "spec": {
+    "width": 220,
+    "height": 130,
+    "mark": {"type": "area", "interpolate": "monotone", "stroke": "white", "strokeWidth": 0.6},
+    "encoding": {
+      "x": {"field": "Year", "type": "temporal", "axis": {"grid": false}},
+      "y": {
+        "field": "share_num",
+        "type": "quantitative",
+        "stack": "normalize",
+        "axis": {"format": "0%", "grid": true, "tickCount": 4}
+      },
+      "color": {
+        "field": "type",
+        "type": "nominal",
+        "domain": ["Wine","Beer","Spirits"],
+        "scale": {"range": ["#3B5BA9", "#9E2F2F", "#4D7A4D"]},
+        "legend": {"orient": "top", "title": null, "direction": "horizontal"}
+      },
+      "tooltip": [
+        {"field": "Entity", "type": "nominal"},
+        {"field": "Year", "type": "temporal"},
+        {"field": "type", "type": "nominal", "title": "Beverage"},
+        {"field": "share_num", "type": "quantitative", "title": "Share", "format": ".1%"}
+      ]
+    }
+  },
+
+  "resolve": {"scale": {"y": "shared"}},
+  "config": {
+    "facet": {"columns": 3},
+    "view": {"stroke": null},
+    "background": "white"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bar-Line combo chart: guideline exceedance (%) vs deaths per 100k, by state (2022)",
+  "width": 450,
+  "height": 450,
+  "title": {
+    "text": " Bars: % exceeding the 2020 NHMRC guideline (=<10 standard drinks per week and =<4 in a single day). Line: alcohol-induced deaths per 100k.",
+    "fontSize": 16,
+    "anchor": "start",
+    "color": "#5a4242",
+    "font": "Inter"
+    
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/gaut0006/3179/refs/heads/main/Prevalence_by_state_year%20and%20deaths%20-%20prevalence_by_state_year%20and%20deaths%20(1).csv"
+  },
+  "transform": [
+    { "filter": "datum.year == 2022" },
+    {
+      "pivot": "metric",
+      "value": "value",
+      "groupby": ["state", "year"]
+    }
+  ],
+  "layer": [
+    {
+      "mark": { "type": "bar", "opacity": 0.8, "color": "#afa6f4" },
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "axis": { "title": "State", "labelAngle": -30, "labelFontSize": 12 }
+        },
+        "y": {
+          "field": "exceeded_2020_guideline_pct",
+          "type": "quantitative",
+          "axis": { "title": "Exceeded 2020 Guideline (%)", "titleColor": "#afa6f4" }
+        },
+        "tooltip": [
+          { "field": "state", "type": "nominal" },
+          { "field": "exceeded_2020_guideline_pct", "title": "Guideline Exceeded (%)" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "line", "color": "#e95555", "strokeWidth": 2, "point": true },
+      "encoding": {
+        "x": { "field": "state", "type": "nominal" },
+        "y": {
+          "field": "alcohol_induced_deaths_rate_per_100k",
+          "type": "quantitative",
+          "axis": { "title": "Alcohol-induced Deaths per 100k", "titleColor": "#E45756" }
+        },
+        "tooltip": [
+          { "field": "state", "type": "nominal" },
+          {
+            "field": "alcohol_induced_deaths_rate_per_100k",
+            "title": "Deaths per 100k"
+          }
+        ]
+      }
+    },
+    
+    {
+      "data": { "values": [ {} ] },
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "top",
+        "dx": -6,
+        "dy": 6,
+        "fontSize": 12,
+        "color": "#666"
+      },
+      "encoding": {
+        "x": { "expr": "width" },
+        "y": { "value": 0 },
+        "text": { "value": "Note: data for Northern Territory not available" }
+      }
+    }
+  ],
+  "resolve": { "scale": { "y": "independent" } },
+  "width": 650,
+  "height": 450,
+  "config": {
+    "background": "#fafafa",
+    "axis": { "gridOpacity": 0.2, "labelFontSize": 12, "titleFontSize": 14 },
+    "view": { "stroke": "transparent" }
+  }
+}

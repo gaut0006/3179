@@ -6,9 +6,9 @@
 
 const SPECS = [
   
-  { id: "map",        url: "alcohol/map.json" },    // Australia map
-  { id: "bar",        url: "alcohol/bar.json" },    //  Scatter plot
-  { id: "line",       url: "alcohol/line.json" },   //  Bar-line combo
+  { id: "map",        url: "map.json" },    // Australia map
+  { id: "bar",        url: "bar.json" },    //  Scatter plot
+  { id: "line",       url: "line.json" },   //  Bar-line combo
 
 ];
 
